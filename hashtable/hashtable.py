@@ -58,6 +58,15 @@ class HashTable:
         """
 
         # Your code here
+        offset_basis = 14695981039346656037
+        fnv_prime = 1099511628211
+        hash = offset_basis
+
+        for character in key:
+            hash = hash * fnv_prime
+            hash = hash ^ ord(character)
+            
+        return hash
 
 
     def djb2(self, key):
@@ -72,7 +81,7 @@ class HashTable:
         for character in key:
             hash = (hash * 33) + ord(character)
 
-        return hash % self.capacity
+        return hash 
 
 
     def hash_index(self, key):
@@ -81,7 +90,7 @@ class HashTable:
         between within the storage capacity of the hash table.
         """
         #return self.fnv1(key) % self.capacity
-        return self.djb2(key) % self.capacity
+        return self.fnv1(key) % self.capacity
 
 
     def put(self, key, value):
@@ -118,7 +127,7 @@ class HashTable:
         Implement this.
         """
         # Your code here
-        slot = self.djb2(key)
+        slot = self.hash_index(key)
         hash_entry = self.data[slot]
 
         if hash_entry is not None:
