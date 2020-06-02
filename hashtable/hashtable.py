@@ -136,7 +136,23 @@ class HashTable:
         Implement this.
         """
         # Your code here
-        self.put(key, None)
+        slot = self.hash_index(key)
+        hash_entry = self.data[slot]
+
+        previous = None
+
+        while previous != None and hash_entry.key != key:
+            previous = hash_entry
+            hash_entry = previous.next
+
+        if hash_entry == None:
+            return None
+        else:
+            if previous == None:
+                self.data[slot] = hash_entry.next
+            else:
+                previous.next = hash_entry.next
+
         self.current_load -= 1
 
 
