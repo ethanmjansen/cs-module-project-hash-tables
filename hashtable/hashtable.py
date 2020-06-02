@@ -7,6 +7,8 @@ class HashTableEntry:
         self.value = value
         self.next = None
 
+    def __repr__(self):
+        return f'{self.key}, {self.value}'
 
 # Hash table can't have fewer than this many slots
 MIN_CAPACITY = 8
@@ -110,7 +112,17 @@ class HashTable:
         """
         # Your code here
         slot = self.hash_index(key)
-        self.data[slot] = HashTableEntry(key, value)
+
+        if self.data[slot] == None:
+            self.data[slot] = HashTableEntry(key, value)
+        else:
+            if self.data[slot] != None and self.data[slot].key != key:
+                while self.data[slot] != None and self.data[slot].key != key:
+                    self.data[slot] = self.data[slot].next
+            else:
+                self.data[slot] = HashTableEntry(key, value)
+
+
         self.current_load += 1
         self.get_load_factor()
 
@@ -140,8 +152,9 @@ class HashTable:
         slot = self.hash_index(key)
         hash_entry = self.data[slot]
 
-        if hash_entry is not None:
-            return hash_entry.value
+        while hash_entry != None:
+            if hash_entry.key == key:
+                return hash_entry.value
 
         return None
 
@@ -164,7 +177,6 @@ class HashTable:
             else:
                 None
             
-
 
 if __name__ == "__main__":
     ht = HashTable(8)
@@ -200,4 +212,3 @@ if __name__ == "__main__":
         print(ht.get(f"line_{i}"))
 
     print("")
-    
