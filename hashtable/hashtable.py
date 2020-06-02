@@ -24,6 +24,7 @@ class HashTable:
         # Your code here
         self.capacity = capacity
         self.data = [None] * self.capacity
+        self.current_load = 0
 
 
     def get_num_slots(self):
@@ -47,8 +48,14 @@ class HashTable:
         Implement this.
         """
         # Your code here
-        pass
+        num_slots = self.get_num_slots()
+        load_factor = self.current_load / num_slots
 
+        if load_factor > 0.7:
+            return self.resize(self.capacity * 2)
+        else:
+            return False
+        
 
     def fnv1(self, key):
         """
@@ -104,6 +111,8 @@ class HashTable:
         # Your code here
         slot = self.hash_index(key)
         self.data[slot] = HashTableEntry(key, value)
+        self.current_load += 1
+        self.get_load_factor()
 
 
     def delete(self, key):
@@ -116,6 +125,7 @@ class HashTable:
         """
         # Your code here
         self.put(key, None)
+        self.current_load -= 1
 
 
     def get(self, key):
@@ -149,7 +159,11 @@ class HashTable:
         self.data = [None] * self.capacity
 
         for i in old_hash:
-            self.put(i.key, i.value)
+            if i is not None:
+                self.put(i.key, i.value)
+            else:
+                None
+            
 
 
 if __name__ == "__main__":
