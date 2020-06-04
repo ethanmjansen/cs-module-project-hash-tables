@@ -2,7 +2,9 @@ def word_count(s):
     # Your code here
     cache = {}
     text = ""
-    punctuation = ['"', ':', ';', ',', '.', '-', '+', '=', '/', '\\', '|', '[',']', '{', '}', '(', ')', '*', '^', '&']
+    punctuation = ['"', ':', ';', ',', '.', '-', '+', '=', '/',
+                   '\\', '|', '[',']', '{', '}', '(', ')', '*',
+                   '^', '&']
     for c in s:
         if c in punctuation:
             s.replace(c, '')
@@ -20,9 +22,6 @@ def word_count(s):
             cache[word] = 1
 
     return cache
-
-
-
 
 
 if __name__ == "__main__":
